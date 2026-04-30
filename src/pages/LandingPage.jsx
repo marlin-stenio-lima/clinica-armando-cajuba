@@ -31,6 +31,20 @@ export default function LandingPage() {
     window.open(whatsappUrl, '_blank');
   };
 
+  const renderHeroTitle = (title) => {
+    if (title.toLowerCase().startsWith('exame')) {
+      return <>Agende seus <span style={{ color: '#ef4444' }}>{title}</span></>;
+    }
+    return <>Agende seu exame de <span style={{ color: '#ef4444' }}>{title}</span></>;
+  };
+
+  const renderHeroDesc = (title) => {
+    if (title.toLowerCase().startsWith('exame')) {
+      return `Cuidar da sua saúde é a nossa prioridade. Realize seus ${title.toLowerCase()} com tecnologia de ponta e radiologistas altamente qualificados.`;
+    }
+    return `Cuidar da sua saúde é a nossa prioridade. Realize seu exame de ${title.toLowerCase()} com tecnologia de ponta e radiologistas altamente qualificados.`;
+  };
+
   return (
     <>
       <style>{`
@@ -80,11 +94,11 @@ export default function LandingPage() {
               </span>
               
               <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', fontWeight: 800, lineHeight: 1.15, color: '#0f172a', marginBottom: '24px', letterSpacing: '-1.5px', wordBreak: 'break-word' }}>
-                Agende seu exame de <span style={{ color: '#ef4444' }}>{exam.title}</span>
+                {renderHeroTitle(exam.title)}
               </h1>
               
               <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '40px', lineHeight: 1.6, maxWidth: '750px' }}>
-                Cuidar da sua saúde é a nossa prioridade. Realize seu exame de {exam.title.toLowerCase()} com tecnologia de ponta e radiologistas altamente qualificados.
+                {renderHeroDesc(exam.title)}
               </p>
               
               <button 
