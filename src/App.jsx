@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
+import CentralLandingPage from './pages/CentralLandingPage';
 import Dashboard from './pages/Dashboard';
 import { useEffect } from 'react';
 import { seedInitialDataIfEmpty } from './utils/tracking';
@@ -14,10 +15,12 @@ function App() {
     <Router>
       <div className="gradient-bg"></div>
       <Routes>
+        {/* Central LP is the main entry point */}
+        <Route path="/" element={<CentralLandingPage />} />
+        {/* Individual LPs remain accessible */}
         <Route path="/lp/:examId" element={<LandingPage />} />
+        {/* Admin Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* Redirect root to a default LP or dashboard for demo purposes */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );

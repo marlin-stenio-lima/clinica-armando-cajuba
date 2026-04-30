@@ -118,6 +118,42 @@ export const exams = [
       ],
       preparation: "O preparo depende do local da biópsia. Exames de coagulação recentes são obrigatórios. Pode ser necessário suspender anticoagulantes sob orientação médica prévia."
     }
+  },
+  {
+    id: "cardiovascular",
+    title: "Exames Cardiovasculares (Coração)",
+    description: "Avaliação completa da saúde do seu coração.",
+    message: "Olá, tenho interesse em agendar um Exame Cardiovascular (Coração).",
+    color: "#ef4444",
+    details: {
+      about: "Oferecemos exames focados no sistema cardiovascular, como ecocardiogramas e risco cirúrgico.",
+      indications: ["Avaliação cardíaca", "Risco cirúrgico", "Acompanhamento cardiológico"],
+      preparation: "Varia de acordo com o exame específico. As instruções serão passadas no agendamento."
+    }
+  },
+  {
+    id: "coluna-joelho",
+    title: "Exames de Coluna e Joelho",
+    description: "Diagnóstico preciso para dores articulares e de coluna.",
+    message: "Olá, tenho interesse em agendar um Exame de Coluna ou Joelho.",
+    color: "#ef4444",
+    details: {
+      about: "Utilizamos as melhores técnicas de imagem para avaliar articulações, ligamentos e coluna vertebral.",
+      indications: ["Dores na coluna", "Lesões no joelho", "Artrose e artrite"],
+      preparation: "Geralmente não exige preparo específico. Usar roupas confortáveis."
+    }
+  },
+  {
+    id: "gastro",
+    title: "Exames Gastroenterológicos",
+    description: "Exames voltados para a saúde do sistema digestivo.",
+    message: "Olá, tenho interesse em agendar um Exame Gastroenterológico.",
+    color: "#ef4444",
+    details: {
+      about: "Diagnósticos por imagem focados na região abdominal e órgãos do sistema digestivo.",
+      indications: ["Dores abdominais", "Investigação hepática", "Acompanhamento gastrointestinal"],
+      preparation: "Exige jejum prévio de acordo com a área a ser avaliada."
+    }
   }
 ];
 
