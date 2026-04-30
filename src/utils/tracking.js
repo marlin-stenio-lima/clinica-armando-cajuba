@@ -31,32 +31,49 @@ export const trackView = async (examId) => {
 };
 
 // We will fetch and aggregate the events for the dashboard
-export const getTrackingData = async (month = getCurrentMonth()) => {
+export const getTrackingData = async (period = 'Este Mês') => {
   try {
-    // Fetch all events for the month
-    // In a huge production app, we would do this aggregation in a SQL View or RPC
-    // For now, fetching events filtered by month start/end is fine.
-    
-    const startDate = `${month}-01T00:00:00.000Z`;
-    // Approximate end date by just using string comparison or fetching all and filtering
-    
+    let startDate = new Date();
+    startDate.setHours(0, 0, 0, 0);
+    let endDate = new Date();
+    endDate.setHours(23, 59, 59, 999);
+
+    if (period === 'Hoje') {
+      // keep today
+    } else if (period === 'Ontem') {
+      startDate.setDate(startDate.getDate() - 1);
+      endDate.setDate(endDate.getDate() - 1);
+    } else if (period === 'Últimos 7 dias') {
+      startDate.setDate(startDate.getDate() - 7);
+    } else if (period === 'Este Mês') {
+      startDate.setDate(1);
+    } else if (period === 'Mês Passado') {
+      startDate.setMonth(startDate.getMonth() - 1);
+      startDate.setDate(1);
+      endDate.setDate(0); 
+    } else if (period === 'Este Ano') {
+      startDate.setMonth(0, 1);
+    } else if (period === 'Personalizado') {
+      startDate = new Date(0); // All time for now
+    }
+
     const { data, error } = await supabase
       .from('tracking_events')
       .select('event_type, exam_id')
-      .gte('created_at', startDate);
+      .gte('created_at', startDate.toISOString())
+      .lte('created_at', endDate.toISOString());
       
     if (error) throw error;
     
     const aggregated = {};
-    aggregated[month] = {};
     
     data.forEach(event => {
       const { exam_id, event_type } = event;
-      if (!aggregated[month][exam_id]) {
-        aggregated[month][exam_id] = { clicks: 0, views: 0 };
+      if (!aggregated[exam_id]) {
+        aggregated[exam_id] = { clicks: 0, views: 0 };
       }
-      if (event_type === 'click') aggregated[month][exam_id].clicks += 1;
-      if (event_type === 'view') aggregated[month][exam_id].views += 1;
+      if (event_type === 'click') aggregated[exam_id].clicks += 1;
+      if (event_type === 'view') aggregated[exam_id].views += 1;
     });
 
     return aggregated;

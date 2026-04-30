@@ -23,7 +23,8 @@ export default function Dashboard() {
   const [totalClicks, setTotalClicks] = useState(0);
   const [totalViews, setTotalViews] = useState(0);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const currentMonth = new Date().toISOString().slice(0, 7);
+  const [period, setPeriod] = useState('Hoje');
+  const [channel, setChannel] = useState('Todas as LPs');
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -39,19 +40,15 @@ export default function Dashboard() {
     if (!isAuthenticated) return;
     
     async function fetchData() {
-      const rawData = await getTrackingData();
-      const monthData = rawData[currentMonth] || {};
+      const aggregatedData = await getTrackingData(period);
       
       let tClicks = 0;
       let tViews = 0;
       
       const formattedData = exams.map(exam => {
-        const stats = monthData[exam.id] || { clicks: 0, views: 0 };
+        const stats = aggregatedData[exam.id] || { clicks: 0, views: 0 };
         const clicks = stats.clicks || 0;
         const views = stats.views || 0;
-        
-        tClicks += clicks;
-        tViews += views;
         
         return {
           name: exam.title,
@@ -61,7 +58,17 @@ export default function Dashboard() {
           color: exam.color,
           id: exam.id
         };
-      }).sort((a, b) => b.clicks - a.clicks);
+      })
+      .filter(exam => {
+        if (channel === 'Todas as LPs') return true;
+        return exam.name === channel;
+      })
+      .sort((a, b) => b.clicks - a.clicks);
+
+      formattedData.forEach(exam => {
+        tClicks += exam.clicks;
+        tViews += exam.views;
+      });
 
       setData(formattedData);
       setTotalClicks(tClicks);
@@ -69,7 +76,7 @@ export default function Dashboard() {
     }
     
     fetchData();
-  }, [currentMonth, isAuthenticated]);
+  }, [period, channel, isAuthenticated]);
 
   const globalConversion = totalViews > 0 ? ((totalClicks / totalViews) * 100).toFixed(1) : 0;
 
@@ -198,11 +205,11 @@ export default function Dashboard() {
           {/* Page Title & Filters */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
             <div>
-              <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', marginBottom: '4px' }}>
-                {activeTab === 'dashboard' ? 'Painel Operacional (Marketing)' : 'Gerenciamento de LPs'}
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1e293b', marginBottom: '4px' }}>
+                {activeTab === 'dashboard' ? 'Marketing Insights' : 'Gerenciamento de LPs'}
               </h1>
-              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                {activeTab === 'dashboard' ? 'Monitore o desempenho e volume de cliques das Landing Pages.' : 'Selecione uma página para acessar e compartilhar o link.'}
+              <p style={{ color: '#64748b', fontSize: '0.85rem' }}>
+                {activeTab === 'dashboard' ? 'Resultados reais de tráfego' : 'Gerencie as landing pages'}
               </p>
             </div>
             
@@ -210,7 +217,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Período</label>
-                  <select className="admin-select">
+                  <select className="admin-select" value={period} onChange={e => setPeriod(e.target.value)}>
                     <option>Hoje</option>
                     <option>Ontem</option>
                     <option>Últimos 7 dias</option>
@@ -222,9 +229,9 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Canal (Landing Page)</label>
-                  <select className="admin-select">
+                  <select className="admin-select" value={channel} onChange={e => setChannel(e.target.value)}>
                     <option>Todas as LPs</option>
-                    {exams.map(e => <option key={e.id}>{e.title}</option>)}
+                    {exams.map(e => <option key={e.id} value={e.title}>{e.title}</option>)}
                   </select>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -293,49 +300,7 @@ export default function Dashboard() {
               </div>
 
               {/* Charts Row */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '24px' }}>
-                
-                {/* Horizontal Bar Chart for better readability */}
-                <div className="admin-card">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <BarChart3 size={18} color="#64748b" />
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1e293b' }}>Desempenho por Exame</h3>
-                  </div>
-                  <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '24px' }}>
-                    Comparativo de visualizações (cinza) e cliques (colorido).
-                  </p>
-                  
-                  <div style={{ width: '100%', height: '350px' }}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart 
-                        data={data} 
-                        layout="vertical" 
-                        margin={{ top: 0, right: 30, left: 20, bottom: 0 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-                        <XAxis type="number" hide />
-                        <YAxis 
-                          type="category" 
-                          dataKey="name" 
-                          axisLine={false} 
-                          tickLine={false} 
-                          tick={{ fill: '#475569', fontSize: 12, fontWeight: 500 }} 
-                          width={160}
-                        />
-                        <Tooltip 
-                          cursor={{ fill: '#f8fafc' }}
-                          contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', fontSize: '0.85rem' }}
-                        />
-                        <Bar dataKey="views" name="Visualizações" fill="#e2e8f0" radius={[0, 4, 4, 0]} barSize={12} />
-                        <Bar dataKey="clicks" name="Cliques no Whats" radius={[0, 4, 4, 0]} barSize={12}>
-                          {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color || '#3b82f6'} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
 
                 {/* Detailed Performance Table */}
                 <div className="admin-card" style={{ overflow: 'hidden' }}>
