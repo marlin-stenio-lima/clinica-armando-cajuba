@@ -80,7 +80,7 @@ export default function LandingPage() {
         {/* HERO SECTION */}
         <section style={{ 
           paddingTop: '160px', 
-          paddingBottom: '120px', 
+          paddingBottom: '60px', 
           background: '#ffffff',
           position: 'relative',
           overflow: 'hidden',
@@ -147,7 +147,7 @@ export default function LandingPage() {
         </section>
 
         {/* DETALHES DO EXAME SECTION */}
-        <section style={{ background: '#f8fafc', padding: '80px 0' }}>
+        <section style={{ background: '#f8fafc', padding: '40px 0 80px 0' }}>
           <div className="lp-container">
             <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', marginBottom: '40px' }}>
               <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px', letterSpacing: '-0.5px' }}>Tudo o que você precisa saber sobre o exame</h2>
