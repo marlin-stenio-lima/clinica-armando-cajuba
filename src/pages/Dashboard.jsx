@@ -351,6 +351,50 @@ export default function Dashboard() {
           ) : (
             /* LPs View as Square Cards */
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '24px' }}>
+              {/* Central LP Card */}
+              <Link 
+                to="/agendamento"
+                target="_blank"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '32px 24px',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '16px',
+                  textDecoration: 'none',
+                  color: '#1e293b',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#22c55e';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(34, 197, 94, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.02)';
+                }}
+              >
+                <div style={{ 
+                  width: '64px', height: '64px', borderRadius: '16px', 
+                  background: '#22c55e15', display: 'flex', 
+                  alignItems: 'center', justifyContent: 'center', marginBottom: '20px' 
+                }}>
+                  <ExternalLink size={28} color="#22c55e" />
+                </div>
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', marginBottom: '8px', lineHeight: 1.2 }}>
+                  Central de Agendamentos (Todos)
+                </h4>
+                <span style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  Visualizar Página <ExternalLink size={12} />
+                </span>
+              </Link>
+
               {exams.map(exam => (
                 <Link 
                   key={exam.id}
