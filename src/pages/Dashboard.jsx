@@ -161,7 +161,7 @@ export default function Dashboard() {
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <div style={{ position: 'relative' }}>
+            <div className="admin-header-search" style={{ position: 'relative' }}>
               <Search size={16} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
@@ -173,7 +173,7 @@ export default function Dashboard() {
                   backgroundColor: '#f8fafc',
                   outline: 'none',
                   fontSize: '0.85rem',
-                  width: '250px'
+                  width: '100%'
                 }} 
               />
             </div>
@@ -235,7 +235,7 @@ export default function Dashboard() {
           {activeTab === 'dashboard' ? (
             <>
               {/* KPIs */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '24px' }}>
+              <div className="kpi-grid" style={{ marginBottom: '24px' }}>
                 
                 {/* Visualizações KPI */}
                 <div className="admin-card kpi-card">
