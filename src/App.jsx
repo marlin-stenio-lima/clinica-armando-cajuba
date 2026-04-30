@@ -15,12 +15,14 @@ function App() {
     <Router>
       <div className="gradient-bg"></div>
       <Routes>
-        {/* Central LP is the main entry point */}
-        <Route path="/" element={<CentralLandingPage />} />
+        {/* Central LP */}
+        <Route path="/agendamento" element={<CentralLandingPage />} />
         {/* Individual LPs remain accessible */}
         <Route path="/lp/:examId" element={<LandingPage />} />
         {/* Admin Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* Redirect root to dashboard */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );
