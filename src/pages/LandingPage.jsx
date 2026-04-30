@@ -50,13 +50,7 @@ export default function LandingPage() {
         @media (max-width: 768px) {
           .lp-hero-grid { grid-template-columns: 1fr; gap: 2rem; padding-top: 100px; }
           .lp-content-grid { grid-template-columns: 1fr; }
-          h1 { font-size: 2.5rem !important; }
-          .mobile-cta {
-            display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
-            background: white; padding: 16px 24px; z-index: 100;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.08); justify-content: center;
-          }
-          .lp-main { padding-bottom: 100px !important; }
+          .lp-main { padding-bottom: 40px !important; }
           .desktop-cta { width: 100%; justify-content: center; }
         }
       `}</style>
@@ -85,11 +79,11 @@ export default function LandingPage() {
                 <Clock size={16} strokeWidth={2.5} /> RESULTADOS EM ATÉ 2 HORAS
               </span>
               
-              <h1 style={{ fontSize: '4.5rem', fontWeight: 800, lineHeight: 1.1, color: '#0f172a', marginBottom: '24px', letterSpacing: '-2px' }}>
-                Agende seu exame de <br/><span style={{ color: '#ef4444' }}>{exam.title}</span>
+              <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', fontWeight: 800, lineHeight: 1.15, color: '#0f172a', marginBottom: '24px', letterSpacing: '-1.5px', wordBreak: 'break-word' }}>
+                Agende seu exame de <span style={{ color: '#ef4444' }}>{exam.title}</span>
               </h1>
               
-              <p style={{ fontSize: '1.3rem', color: '#475569', marginBottom: '48px', lineHeight: 1.6, maxWidth: '750px' }}>
+              <p style={{ fontSize: '1.15rem', color: '#475569', marginBottom: '40px', lineHeight: 1.6, maxWidth: '750px' }}>
                 Cuidar da sua saúde é a nossa prioridade. Realize seu exame de {exam.title.toLowerCase()} com tecnologia de ponta e radiologistas altamente qualificados.
               </p>
               
@@ -98,17 +92,21 @@ export default function LandingPage() {
                 style={{ 
                   background: '#22c55e', 
                   boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4)', 
-                  padding: '22px 64px', 
-                  fontSize: '1.25rem',
+                  padding: '20px 40px', 
+                  fontSize: '1.15rem',
                   borderRadius: '16px',
                   border: 'none',
                   color: 'white',
                   fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
+                  whiteSpace: 'nowrap',
                   gap: '12px',
                   cursor: 'pointer',
                   transition: 'transform 0.2s',
+                  width: '100%',
+                  maxWidth: '360px'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -117,15 +115,15 @@ export default function LandingPage() {
                 Agendar via WhatsApp
               </button>
               
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px', marginTop: '48px', flexWrap: 'wrap' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#334155', fontSize: '1.05rem' }}>
-                  <CheckCircle2 size={20} color="#ef4444" /> Laudos Rápidos
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px', marginTop: '40px', background: '#f8fafc', padding: '24px 32px', borderRadius: '16px', border: '1px solid #f1f5f9' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 600, color: '#334155', fontSize: '1.05rem', textAlign: 'left' }}>
+                  <CheckCircle2 size={20} color="#ef4444" style={{ flexShrink: 0 }} /> Laudos Rápidos
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#334155', fontSize: '1.05rem' }}>
-                  <CheckCircle2 size={20} color="#ef4444" /> Corpo Clínico Especializado
+                <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 600, color: '#334155', fontSize: '1.05rem', textAlign: 'left' }}>
+                  <CheckCircle2 size={20} color="#ef4444" style={{ flexShrink: 0 }} /> Corpo Clínico Especializado
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#334155', fontSize: '1.05rem' }}>
-                  <CheckCircle2 size={20} color="#ef4444" /> Instalações Modernas
+                <span style={{ display: 'flex', alignItems: 'center', gap: '12px', fontWeight: 600, color: '#334155', fontSize: '1.05rem', textAlign: 'left' }}>
+                  <CheckCircle2 size={20} color="#ef4444" style={{ flexShrink: 0 }} /> Instalações Modernas
                 </span>
               </div>
             </div>
@@ -439,7 +437,6 @@ export default function LandingPage() {
 
       </main>
 
-      {/* FLOATING WHATSAPP BUTTON (GLOBAL) */}
       <a 
         href={`https://wa.me/${clinicWhatsApp}?text=${encodeURIComponent(exam.message)}`}
         target="_blank"
@@ -447,8 +444,8 @@ export default function LandingPage() {
         onClick={(e) => { e.preventDefault(); handleWhatsAppClick(); }}
         style={{
           position: 'fixed',
-          bottom: '30px',
-          right: '30px',
+          bottom: '24px',
+          right: '24px',
           background: '#25d366',
           color: 'white',
           width: '60px',
@@ -467,23 +464,6 @@ export default function LandingPage() {
       >
         <MessageCircle size={32} />
       </a>
-
-      {/* MOBILE STICKY CTA */}
-      <div className="mobile-cta">
-        <button 
-          onClick={handleWhatsAppClick} 
-          style={{ 
-            background: `linear-gradient(135deg, ${exam.color}, ${exam.color}dd)`, 
-            color: 'white', border: 'none', padding: '16px', width: '100%', 
-            borderRadius: '12px', fontWeight: 700, fontSize: '1.1rem', 
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-            boxShadow: `0 8px 20px ${exam.color}40`
-          }}
-        >
-          <MessageCircle size={22} />
-          Agendar pelo WhatsApp
-        </button>
-      </div>
     </>
   );
 }
