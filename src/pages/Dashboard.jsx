@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { 
   LayoutDashboard, Activity, BarChart3, 
-  Search, Bell, Download, MousePointerClick, TrendingUp, CheckCircle, ExternalLink, Link as LinkIcon, Eye, Percent
+  Search, Bell, Download, MousePointerClick, TrendingUp, CheckCircle, ExternalLink, Link as LinkIcon, Eye, Percent, List
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -160,7 +160,7 @@ export default function Dashboard() {
             <span style={{ color: '#1e293b', fontWeight: 500 }}>{activeTab === 'dashboard' ? 'Dashboard' : 'Landing Pages'}</span>
           </div>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div className="admin-header-controls" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div className="admin-header-search" style={{ position: 'relative' }}>
               <Search size={16} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
@@ -207,24 +207,28 @@ export default function Dashboard() {
             </div>
             
             {activeTab === 'dashboard' && (
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Período</label>
                   <select className="admin-select">
+                    <option>Hoje</option>
+                    <option>Ontem</option>
+                    <option>Últimos 7 dias</option>
                     <option>Este Mês</option>
                     <option>Mês Passado</option>
                     <option>Este Ano</option>
+                    <option>Personalizado</option>
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Canal</label>
+                  <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Canal (Landing Page)</label>
                   <select className="admin-select">
-                    <option>Todos (LPs + Orgânico)</option>
-                    <option>Landing Pages (LPs)</option>
+                    <option>Todas as LPs</option>
+                    {exams.map(e => <option key={e.id}>{e.title}</option>)}
                   </select>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <button className="btn-outline">
+                  <button className="btn-outline" onClick={() => window.print()}>
                     <Download size={14} /> Exportar
                   </button>
                 </div>
@@ -333,52 +337,47 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Improved Donut Chart */}
-                <div className="admin-card">
+                {/* Detailed Performance Table */}
+                <div className="admin-card" style={{ overflow: 'hidden' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <Activity size={18} color="#64748b" />
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1e293b' }}>Distribuição de Cliques</h3>
+                    <List size={18} color="#64748b" />
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1e293b' }}>Detalhamento por Exame</h3>
                   </div>
                   <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '24px' }}>
-                    Representatividade dos exames.
+                    Tabela completa com métricas isoladas de performance.
                   </p>
                   
-                  <div style={{ position: 'relative', width: '100%', height: '280px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {/* Center Text */}
-                    <div style={{ position: 'absolute', textAlign: 'center', zIndex: 10, pointerEvents: 'none' }}>
-                      <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b' }}>Total Cliques</span>
-                      <strong style={{ fontSize: '1.8rem', color: '#1e293b' }}>{totalClicks}</strong>
-                    </div>
-
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={data}
-                          innerRadius={85}
-                          outerRadius={120}
-                          paddingAngle={3}
-                          dataKey="clicks"
-                          stroke="none"
-                        >
-                          {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color || '#3b82f6'} />
-                          ))}
-                        </Pie>
-                        <Tooltip 
-                          contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', fontSize: '0.85rem' }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                  
-                  {/* Legend Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '16px' }}>
-                    {data.slice(0, 6).map((item, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: '#475569' }}>
-                        <div style={{ width: '10px', height: '10px', borderRadius: '3px', backgroundColor: item.color }}></div>
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</span>
-                      </div>
-                    ))}
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid #e2e8f0', color: '#64748b', textAlign: 'left' }}>
+                          <th style={{ padding: '12px 8px', fontWeight: 500 }}>Exame (LP)</th>
+                          <th style={{ padding: '12px 8px', fontWeight: 500, textAlign: 'right' }}>Visitas</th>
+                          <th style={{ padding: '12px 8px', fontWeight: 500, textAlign: 'right' }}>Cliques (Whats)</th>
+                          <th style={{ padding: '12px 8px', fontWeight: 500, textAlign: 'right' }}>Taxa de Conversão</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((item, idx) => {
+                          const convRate = item.views > 0 ? Math.round((item.clicks / item.views) * 100) : 0;
+                          return (
+                            <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                              <td style={{ padding: '14px 8px', color: '#1e293b', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color || '#3b82f6' }}></div>
+                                  {item.name}
+                                </div>
+                              </td>
+                              <td style={{ padding: '14px 8px', textAlign: 'right', color: '#475569' }}>{item.views}</td>
+                              <td style={{ padding: '14px 8px', textAlign: 'right', color: '#3b82f6', fontWeight: 600 }}>{item.clicks}</td>
+                              <td style={{ padding: '14px 8px', textAlign: 'right', color: '#10b981', fontWeight: 600 }}>
+                                {convRate}%
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
