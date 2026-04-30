@@ -121,9 +121,9 @@ export const exams = [
   },
   {
     id: "cardiovascular",
-    title: "Exames Cardiovasculares (Coração)",
+    title: "Exames Cardiovasculares",
     description: "Avaliação completa da saúde do seu coração.",
-    message: "Olá, tenho interesse em agendar um Exame Cardiovascular (Coração).",
+    message: "Olá, tenho interesse em agendar um Exame Cardiovascular.",
     color: "#ef4444",
     details: {
       about: "Oferecemos exames focados no sistema cardiovascular, como ecocardiogramas e risco cirúrgico.",
