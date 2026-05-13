@@ -433,9 +433,12 @@ export default function Dashboard() {
                   }}>
                     <ExternalLink size={28} color={exam.color} />
                   </div>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', marginBottom: '8px', lineHeight: 1.2 }}>
+                  <h4 style={{ fontSize: '1rem', fontWeight: 600, textAlign: 'center', marginBottom: '4px', lineHeight: 1.2 }}>
                     {exam.title}
                   </h4>
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '8px' }}>
+                    {exam.category}
+                  </span>
                   <span style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     Visualizar Página <ExternalLink size={12} />
                   </span>

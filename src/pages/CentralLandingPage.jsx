@@ -1,11 +1,70 @@
 import { exams, clinicWhatsApp } from '../data/exams';
 import { trackClick, trackView } from '../utils/tracking';
+import { Link } from 'react-router-dom';
 import { 
-  MessageCircle, Clock, MapPin, ShieldCheck, Activity, 
-  CheckCircle2, AlertCircle, Info, HeartHandshake, Phone, Mail,
+  MessageCircle, Clock, MapPin, Activity, 
+  CheckCircle2, Phone, Mail,
   Target, User, Timer
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+// Categorias exibidas no site principal (cada uma agrupa múltiplas LPs)
+const DISPLAY_CATEGORIES = [
+  {
+    label: "Tomografia",
+    description: "Tomografia de Crânio, Tórax, Multislice e Angiotomografia",
+    examIds: ["tomografia-cranio", "tomografia-torax", "tomografia-multislice", "angiotomografia"],
+    genericMessage: "Olá, tenho interesse em agendar uma Tomografia.",
+  },
+  {
+    label: "Ultrassonografia",
+    description: "Ultrassonografia geral, obstétrica, Doppler colorido e muito mais",
+    examIds: ["ultrassonografia", "doppler"],
+    genericMessage: "Olá, tenho interesse em agendar uma Ultrassonografia.",
+  },
+  {
+    label: "Radiografia",
+    description: "Raio-X digital e exames contrastados especializados",
+    examIds: ["raio-x"],
+    genericMessage: "Olá, tenho interesse em agendar uma Radiografia (Raio-X).",
+  },
+  {
+    label: "Mamografia",
+    description: "Detecção precoce do câncer de mama com tecnologia de ponta",
+    examIds: ["mamografia"],
+    genericMessage: "Olá, tenho interesse em agendar uma Mamografia.",
+  },
+  {
+    label: "Densitometria Óssea",
+    description: "Diagnóstico de osteopenia e osteoporose com precisão",
+    examIds: ["densitometria"],
+    genericMessage: "Olá, tenho interesse em agendar uma Densitometria Óssea.",
+  },
+  {
+    label: "Biópsias e Punção",
+    description: "Procedimentos guiados por imagem para diagnóstico definitivo",
+    examIds: ["biopsia-e-puncao"],
+    genericMessage: "Olá, tenho interesse em agendar uma Biópsia ou Punção.",
+  },
+  {
+    label: "Exames Cardiovasculares",
+    description: "Avaliação completa da saúde do coração",
+    examIds: ["cardiovascular"],
+    genericMessage: "Olá, tenho interesse em agendar um Exame Cardiovascular.",
+  },
+  {
+    label: "Ortopedista",
+    description: "Diagnóstico de coluna, joelho e lesões articulares",
+    examIds: ["ortopedista"],
+    genericMessage: "Olá, tenho interesse em agendar um Exame de Ortopedia.",
+  },
+  {
+    label: "Exames Gastroenterológicos",
+    description: "Saúde do sistema digestivo",
+    examIds: ["gastro"],
+    genericMessage: "Olá, tenho interesse em agendar um Exame Gastroenterológico.",
+  },
+];
 
 export default function CentralLandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -17,20 +76,22 @@ export default function CentralLandingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleWhatsAppClick = (exam) => {
-    if (exam) {
-      trackClick(exam.id);
-      const encodedMessage = encodeURIComponent(exam.message);
-      const whatsappUrl = `https://wa.me/${clinicWhatsApp}?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
-    } else {
-      // Default generic message
+  const handleWhatsAppClick = (msgOrExam) => {
+    let message;
+    if (!msgOrExam) {
+      message = "Olá, tenho interesse em agendar um exame.";
       trackClick('central_lp_generic');
-      const encodedMessage = encodeURIComponent("Olá, tenho interesse em agendar um exame.");
-      const whatsappUrl = `https://wa.me/${clinicWhatsApp}?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
+    } else if (typeof msgOrExam === 'string') {
+      message = msgOrExam;
+      trackClick('central_lp_category');
+    } else {
+      trackClick(msgOrExam.id);
+      message = msgOrExam.message;
     }
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${clinicWhatsApp}?text=${encodedMessage}`, '_blank');
   };
+
 
   return (
     <>
@@ -153,44 +214,91 @@ export default function CentralLandingPage() {
           </div>
         </section>
 
-        {/* LISTA DE EXAMES SECTION */}
+        {/* ESPECIALIDADES SECTION */}
         <section style={{ background: '#f8fafc', padding: '40px 0 80px 0' }}>
           <div className="lp-container">
             <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', marginBottom: '40px' }}>
-              <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px', letterSpacing: '-0.5px' }}>Qual exame você deseja agendar?</h2>
+              <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px', letterSpacing: '-0.5px' }}>Qual especialidade você deseja?</h2>
               <p style={{ color: '#475569', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                Selecione abaixo o tipo de exame desejado para falar com a nossa equipe de atendimento via WhatsApp.
+                Selecione abaixo a especialidade para falar diretamente com nossa equipe via WhatsApp.
               </p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', maxWidth: '1100px', margin: '0 auto' }}>
-              {exams.map(exam => (
-                <button 
-                  key={exam.id}
-                  onClick={() => handleWhatsAppClick(exam)}
-                  className="exam-option-card"
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                     <div style={{ background: '#25d36615', padding: '10px', borderRadius: '10px' }}>
-                       <svg width="22" height="22" viewBox="0 0 24 24" fill="#25d366" xmlns="http://www.w3.org/2000/svg">
-                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-                       </svg>
-                     </div>
-                     <h3 style={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem', margin: 0 }}>{exam.title}</h3>
+              {DISPLAY_CATEGORIES.map((cat, idx) => {
+                // If category maps to a single LP → card links to that LP's page
+                const singleExamId = cat.examIds.length === 1 ? cat.examIds[0] : null;
+                return (
+                  <div key={idx} className="exam-option-card" style={{ cursor: 'default' }}>
+                    {/* Category header — clicking sends WhatsApp message */}
+                    <button
+                      onClick={() => handleWhatsAppClick(cat.genericMessage)}
+                      style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                        <div style={{ background: '#25d36615', padding: '10px', borderRadius: '10px', flexShrink: 0 }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="#25d366" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                          </svg>
+                        </div>
+                        <h3 style={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem', margin: 0 }}>{cat.label}</h3>
+                      </div>
+                      <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: 1.5, margin: '0 0 12px 0' }}>
+                        {cat.description}
+                      </p>
+                    </button>
+
+                    {/* Sub-links to individual LPs when there are multiple exams */}
+                    {cat.examIds.length > 1 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+                        {cat.examIds.map(eid => {
+                          const ex = exams.find(e => e.id === eid);
+                          if (!ex) return null;
+                          return (
+                            <Link
+                              key={eid}
+                              to={`/lp/${eid}`}
+                              style={{
+                                fontSize: '0.78rem',
+                                padding: '4px 10px',
+                                borderRadius: '20px',
+                                border: '1px solid #e2e8f0',
+                                color: '#475569',
+                                textDecoration: 'none',
+                                fontWeight: 500,
+                                transition: 'all 0.2s'
+                              }}
+                              onMouseEnter={e => { e.currentTarget.style.borderColor = '#ef4444'; e.currentTarget.style.color = '#ef4444'; }}
+                              onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.color = '#475569'; }}
+                            >
+                              {ex.title}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    <div style={{ width: '100%', borderTop: '1px solid #f1f5f9', paddingTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <button
+                        onClick={() => handleWhatsAppClick(cat.genericMessage)}
+                        style={{ background: 'none', border: 'none', padding: 0, color: '#25d366', fontWeight: 600, fontSize: '0.92rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                      >
+                        Agendar agora
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                      </button>
+                      {singleExamId && (
+                        <Link to={`/lp/${singleExamId}`} style={{ fontSize: '0.78rem', color: '#94a3b8', textDecoration: 'none' }}>
+                          Ver detalhes →
+                        </Link>
+                      )}
+                    </div>
                   </div>
-                  <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: 1.5, margin: 0, marginBottom: '20px', flexGrow: 1 }}>
-                    {exam.description}
-                  </p>
-                  
-                  <div style={{ width: '100%', borderTop: '1px solid #f1f5f9', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#25d366', fontWeight: 600, fontSize: '0.95rem' }}>
-                    <span>Agendar exame</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                  </div>
-                </button>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
+
 
         {/* POR QUE ESCOLHER SECTION */}
         <section style={{ padding: '80px 0', background: '#ffffff' }}>

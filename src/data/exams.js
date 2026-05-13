@@ -1,7 +1,9 @@
 export const exams = [
+  // ─── ULTRASSONOGRAFIA ───────────────────────────────────────────────────────
   {
     id: "ultrassonografia",
     title: "Ultrassonografia",
+    category: "Ultrassonografia",
     description: "Realize sua ultrassonografia com radiologistas experientes e modernos aparelhos.",
     message: "Olá, tenho interesse no exame de Ultrassonografia.",
     color: "#ef4444",
@@ -17,26 +19,90 @@ export const exams = [
       preparation: "O preparo varia. Abdome total exige jejum. Exames pélvicos requerem bexiga cheia. Para a Ultrassonografia de Próstata por via abdominal (procedimento não invasivo para avaliação da bexiga, próstata e vesículas seminais), também é necessário retenção urinária."
     }
   },
+
+  // ─── TOMOGRAFIAS ────────────────────────────────────────────────────────────
   {
-    id: "tomografia",
-    title: "Tomografia Multislice e Angiotomografia",
-    description: "Diagnósticos rápidos e precisos com tomografia de alta tecnologia (Multislice) e Angiotomografia.",
-    message: "Olá, tenho interesse no exame de Tomografia.",
+    id: "tomografia-cranio",
+    title: "Tomografia de Crânio",
+    category: "Tomografia",
+    description: "Diagnóstico preciso de crânio com tomógrafo de alta tecnologia para avaliação neurológica detalhada.",
+    message: "Olá, tenho interesse no exame de Tomografia de Crânio.",
     color: "#ef4444",
     details: {
-      about: "A Tomografia Multislice captura imagens detalhadas do corpo em fatias milimétricas e em 3D. A Angiotomografia permite a visualização não invasiva dos vasos sanguíneos com alta precisão e rapidez.",
+      about: "A Tomografia de Crânio permite avaliar com precisão estruturas cerebrais, detectar lesões, sangramentos, tumores e alterações vasculares. Utilizamos tomógrafo Multislice de última geração para imagens com altíssima resolução.",
       indications: [
-        "Tomografia Multislice de crânio, tórax, abdome e pelve",
-        "Angiotomografia para estudo de artérias e veias",
-        "Diagnóstico de lesões complexas e tumores",
-        "Avaliação vascular detalhada"
+        "Avaliação de traumas cranianos",
+        "Investigação de AVC e hemorragias",
+        "Diagnóstico de tumores cerebrais",
+        "Estudo de seios paranasais e base do crânio",
+        "Acompanhamento de lesões neurológicas"
       ],
-      preparation: "Para exames com contraste, é necessário jejum de 4 a 6 horas. Pacientes com alergias ou problemas renais devem informar a clínica previamente."
+      preparation: "Geralmente não exige preparo. Para exames com contraste, é necessário jejum de 4 a 6 horas. Pacientes com alergias ou problemas renais devem informar a clínica previamente."
     }
   },
   {
+    id: "tomografia-torax",
+    title: "Tomografia de Tórax",
+    category: "Tomografia",
+    description: "Avaliação pulmonar e torácica de alta precisão para diagnóstico de pneumonias, nódulos e muito mais.",
+    message: "Olá, tenho interesse no exame de Tomografia de Tórax.",
+    color: "#ef4444",
+    details: {
+      about: "A Tomografia de Tórax é fundamental para avaliar pulmões, pleura, mediastino e estruturas vasculares torácicas. Permite diagnóstico precoce de doenças pulmonares, nódulos e embolia pulmonar.",
+      indications: [
+        "Investigação de nódulos pulmonares",
+        "Diagnóstico de pneumonias e Covid-19",
+        "Avaliação de embolia pulmonar",
+        "Estudo do mediastino e grandes vasos",
+        "Acompanhamento de doenças pulmonares crônicas"
+      ],
+      preparation: "Para exames simples, não exige preparo. Com contraste, é necessário jejum de 4 a 6 horas e exame de função renal recente. Informar alergias previamente."
+    }
+  },
+  {
+    id: "tomografia-multislice",
+    title: "Tomografia Multislice",
+    category: "Tomografia",
+    description: "Imagens em fatias milimétricas com resolução máxima para diagnósticos complexos de qualquer região do corpo.",
+    message: "Olá, tenho interesse no exame de Tomografia Multislice.",
+    color: "#ef4444",
+    details: {
+      about: "A Tomografia Multislice captura múltiplas fatias simultâneas com altíssima resolução espacial, permitindo reconstruções 3D e multiplanares de qualquer região do corpo com rapidez e precisão excepcionais.",
+      indications: [
+        "Tomografia de abdome e pelve",
+        "Avaliação de coluna vertebral",
+        "Estudo de articulações complexas",
+        "Diagnóstico de lesões e tumores",
+        "Reconstruções 3D para planejamento cirúrgico"
+      ],
+      preparation: "Para exames com contraste, jejum de 4 a 6 horas obrigatório. Pacientes com problemas renais devem apresentar creatinina recente. Informar alergias a contraste iodado."
+    }
+  },
+  {
+    id: "angiotomografia",
+    title: "Angiotomografia",
+    category: "Tomografia",
+    description: "Visualização não invasiva e altamente precisa dos vasos sanguíneos arteriais e venosos.",
+    message: "Olá, tenho interesse no exame de Angiotomografia.",
+    color: "#ef4444",
+    details: {
+      about: "A Angiotomografia é um exame de imagem que utiliza tomógrafo com injeção de contraste para mapear vasos sanguíneos com precisão, substituindo de forma segura e rápida procedimentos invasivos como a angiografia convencional.",
+      indications: [
+        "Estudo das artérias coronárias",
+        "Avaliação de aorta e seus ramos",
+        "Diagnóstico de aneurismas vasculares",
+        "Estudo de artérias carótidas e cerebrais",
+        "Avaliação pré-operatória vascular"
+      ],
+      preparation: "Exige jejum de 4 a 6 horas. É obrigatório exame de creatinina recente (função renal). Suspender Metformina 48h antes sob orientação médica. Informar alergias a contraste."
+    }
+  },
+
+  // ─── DOPPLER ────────────────────────────────────────────────────────────────
+  {
     id: "doppler",
     title: "Doppler (Ecodoppler colorido)",
+    category: "Ultrassonografia",
     description: "Avaliação vascular completa: arterial, venosa e de órgãos específicos com Doppler colorido.",
     message: "Olá, tenho interesse no exame de Doppler.",
     color: "#ef4444",
@@ -51,14 +117,17 @@ export const exams = [
       preparation: "A maioria dos exames de Doppler não exige preparo. Porém, o Doppler hepático e de aorta abdominal requerem jejum de 6 a 8 horas."
     }
   },
+
+  // ─── RADIOGRAFIA ────────────────────────────────────────────────────────────
   {
-    id: "raio-x-e-contrastados",
-    title: "Radiografia (Raio-X) e Raio X Contrastado",
-    description: "Radiografias digitais e exames contrastados especializados (Uretrocistografia, Clister Opaco, etc).",
-    message: "Olá, tenho interesse no exame de Raio-X ou Raio-X Contrastado.",
+    id: "raio-x",
+    title: "Radiografia (Raio-X)",
+    category: "Radiografia",
+    description: "Radiografias digitais rápidas e precisas para avaliação de ossos, pulmões e estruturas internas.",
+    message: "Olá, tenho interesse no exame de Radiografia (Raio-X).",
     color: "#ef4444",
     details: {
-      about: "Oferecemos Raio-X convencional e exames de Raio-X contrastado, que utilizam um meio de contraste para realçar o trato digestivo ou urinário, permitindo diagnósticos que radiografias simples não mostram.",
+      about: "Oferecemos Raio-X convencional digital e exames contrastados que utilizam um meio de contraste para realçar o trato digestivo ou urinário, permitindo diagnósticos que radiografias simples não mostram.",
       indications: [
         "Radiografia (Raio-X) digital em geral",
         "Uretrocistografia e Urografia Excretora",
@@ -68,9 +137,12 @@ export const exams = [
       preparation: "Raios-X simples não exigem preparo. Exames contrastados (como EED e Clister opaco) requerem dieta rigorosa, uso de laxantes e jejum prévio. As instruções detalhadas são passadas no agendamento."
     }
   },
+
+  // ─── MAMOGRAFIA ─────────────────────────────────────────────────────────────
   {
     id: "mamografia",
     title: "Mamografia",
+    category: "Outros",
     description: "O principal exame para detecção precoce do câncer de mama.",
     message: "Olá, tenho interesse no exame de Mamografia.",
     color: "#ef4444",
@@ -85,9 +157,12 @@ export const exams = [
       preparation: "Evite agendar no período pré-menstrual para maior conforto. No dia do exame, não utilize desodorantes, cremes, talcos ou perfumes na região das mamas e axilas."
     }
   },
+
+  // ─── DENSITOMETRIA ──────────────────────────────────────────────────────────
   {
     id: "densitometria",
     title: "Densitometria Óssea",
+    category: "Outros",
     description: "Exame fundamental para diagnóstico de osteopenia e osteoporose.",
     message: "Olá, tenho interesse no exame de Densitometria Óssea.",
     color: "#ef4444",
@@ -102,9 +177,12 @@ export const exams = [
       preparation: "Não ingerir suplementos de cálcio nas 24h anteriores ao exame. Use roupas confortáveis sem botões, fivelas ou zíperes de metal."
     }
   },
+
+  // ─── BIÓPSIAS ───────────────────────────────────────────────────────────────
   {
     id: "biopsia-e-puncao",
     title: "Biópsias e Punção (PAAF)",
+    category: "Outros",
     description: "Procedimentos seguros guiados por imagem para coleta de material e diagnóstico definitivo.",
     message: "Olá, tenho interesse em agendar uma Biópsia ou Punção.",
     color: "#ef4444",
@@ -119,9 +197,12 @@ export const exams = [
       preparation: "O preparo depende do local da biópsia. Exames de coagulação recentes são obrigatórios. Pode ser necessário suspender anticoagulantes sob orientação médica prévia."
     }
   },
+
+  // ─── CARDIOVASCULAR ─────────────────────────────────────────────────────────
   {
     id: "cardiovascular",
     title: "Exames Cardiovasculares",
+    category: "Outros",
     description: "Avaliação completa da saúde do seu coração.",
     message: "Olá, tenho interesse em agendar um Exame Cardiovascular.",
     color: "#ef4444",
@@ -131,21 +212,27 @@ export const exams = [
       preparation: "Varia de acordo com o exame específico. As instruções serão passadas no agendamento."
     }
   },
+
+  // ─── ORTOPEDISTA ────────────────────────────────────────────────────────────
   {
-    id: "coluna-joelho",
-    title: "Exames de Coluna e Joelho",
-    description: "Diagnóstico preciso para dores articulares e de coluna.",
-    message: "Olá, tenho interesse em agendar um Exame de Coluna ou Joelho.",
+    id: "ortopedista",
+    title: "Ortopedista",
+    category: "Outros",
+    description: "Diagnóstico preciso para dores articulares, coluna e lesões musculoesqueléticas.",
+    message: "Olá, tenho interesse em agendar um Exame de Ortopedia.",
     color: "#ef4444",
     details: {
-      about: "Utilizamos as melhores técnicas de imagem para avaliar articulações, ligamentos e coluna vertebral.",
-      indications: ["Dores na coluna", "Lesões no joelho", "Artrose e artrite"],
+      about: "Utilizamos as melhores técnicas de imagem para avaliar articulações, ligamentos e coluna vertebral, fornecendo subsídios precisos para o diagnóstico ortopédico.",
+      indications: ["Dores na coluna", "Lesões no joelho", "Artrose e artrite", "Avaliação de fraturas e lesões musculares"],
       preparation: "Geralmente não exige preparo específico. Usar roupas confortáveis."
     }
   },
+
+  // ─── GASTRO ─────────────────────────────────────────────────────────────────
   {
     id: "gastro",
     title: "Exames Gastroenterológicos",
+    category: "Outros",
     description: "Exames voltados para a saúde do sistema digestivo.",
     message: "Olá, tenho interesse em agendar um Exame Gastroenterológico.",
     color: "#ef4444",
@@ -154,6 +241,73 @@ export const exams = [
       indications: ["Dores abdominais", "Investigação hepática", "Acompanhamento gastrointestinal"],
       preparation: "Exige jejum prévio de acordo com a área a ser avaliada."
     }
+  }
+];
+
+// Categorias para exibição agrupada no site principal
+export const examCategories = [
+  {
+    id: "tomografia",
+    label: "Tomografia",
+    description: "Tomografia de Crânio, Tórax, Multislice e Angiotomografia",
+    icon: "🧠",
+    examIds: ["tomografia-cranio", "tomografia-torax", "tomografia-multislice", "angiotomografia"]
+  },
+  {
+    id: "ultrassonografia",
+    label: "Ultrassonografia",
+    description: "Ultrassonografia geral, obstétrica, Doppler e muito mais",
+    icon: "🔊",
+    examIds: ["ultrassonografia", "doppler"]
+  },
+  {
+    id: "radiografia",
+    label: "Radiografia",
+    description: "Raio-X digital e exames contrastados especializados",
+    icon: "🦴",
+    examIds: ["raio-x"]
+  },
+  {
+    id: "mamografia",
+    label: "Mamografia",
+    description: "Detecção precoce do câncer de mama com equipamento moderno",
+    icon: "🩺",
+    examIds: ["mamografia"]
+  },
+  {
+    id: "densitometria",
+    label: "Densitometria Óssea",
+    description: "Diagnóstico de osteopenia e osteoporose",
+    icon: "🦷",
+    examIds: ["densitometria"]
+  },
+  {
+    id: "biopsia-e-puncao",
+    label: "Biópsias e Punção",
+    description: "Procedimentos guiados por imagem para diagnóstico definitivo",
+    icon: "💉",
+    examIds: ["biopsia-e-puncao"]
+  },
+  {
+    id: "cardiovascular",
+    label: "Exames Cardiovasculares",
+    description: "Avaliação completa da saúde do coração",
+    icon: "❤️",
+    examIds: ["cardiovascular"]
+  },
+  {
+    id: "ortopedista",
+    label: "Ortopedista",
+    description: "Diagnóstico de coluna, joelho e lesões articulares",
+    icon: "🦴",
+    examIds: ["ortopedista"]
+  },
+  {
+    id: "gastro",
+    label: "Exames Gastroenterológicos",
+    description: "Saúde do sistema digestivo",
+    icon: "🏥",
+    examIds: ["gastro"]
   }
 ];
 
